@@ -4,8 +4,8 @@ using System.Threading.Tasks;
 namespace Assignment.API.Infrastructure.EF.Services {
     public interface ICustomerService {
 
-        Task<Customer> GetCustomerByIdWithTransaction(int Id);
-        Task<Customer> GetCustomerByEmailWithTransaction(string email);
-        Task<Customer> GetCustomerByEmailAndIdWithTransaction(string email, int id);
+        Task<Customer> GetCustomerWith5TransactionsById(long id);
+        Task<Customer> GetCustomerWith5TransactionsByEmail(string email);
+        Task<Customer> GetCustomerWith5TransactionsByEmailAndId(string email, long id);
     }
 }
