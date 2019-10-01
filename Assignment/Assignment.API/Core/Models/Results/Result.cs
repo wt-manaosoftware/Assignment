@@ -7,8 +7,8 @@ namespace Assignment.API.Core.Models.Results {
 
     public class Result<T> where T : class {
 
-        public T Data { get; set; }
         public bool Success { get; set; }
+        public T Data { get; set; }
         public List<ErrorResult> Errors { get; set; }
 
         public static Result<T> ResultSuccess(T data) {
