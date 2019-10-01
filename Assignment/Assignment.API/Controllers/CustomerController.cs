@@ -71,14 +71,7 @@ namespace Assignment.API.Controllers
         [HttpGet("GetCustomerByEmailAndId")]
         public async Task<ActionResult<Result<CustomerDTO>>> GetCustomerByEmailAndId([FromQuery] string Email, long Id) {
 
-            var validateResult = customerValidationService.ValidateIsEmptyEmailAndId(Email, Id);
-
-            if (!validateResult.Success) {
-                var errorResult = Result<CustomerDTO>.ResultFail(validateResult);
-                return BadRequest(errorResult);
-            }
-
-            validateResult = customerValidationService.ValidateEmailAndId(Email, Id);
+            var validateResult = customerValidationService.ValidateEmailAndId(Email, Id);
 
             if (!validateResult.Success) {
                 var errorResult = Result<CustomerDTO>.ResultFail(validateResult);
