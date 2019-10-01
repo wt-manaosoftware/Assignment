@@ -19,9 +19,7 @@ namespace Assignment.API.Core.Services.Validation {
             var validateId = ValidateId(Id);
             var validateEmail = ValidateEmail(Email);
 
-            if (!validateId.Success && !validateEmail.Success) {
-                return new ValidationResult(false, "Id", "No inquiry criteria");
-            } else if (!validateId.Success) {
+            if (!validateId.Success) {
                 return validateId;
             } else if (!validateEmail.Success) {
                 return validateEmail;
@@ -33,6 +31,17 @@ namespace Assignment.API.Core.Services.Validation {
         public ValidationResult ValidateId(long Id) {
             if (Id < 1 || Id.ToString().Length > 10)
                 return new ValidationResult(false, "Id", "Invalid Customer ID");
+
+            return new ValidationResult();
+        }
+
+        public ValidationResult ValidateIsEmptyEmailAndId(string Email, long Id) {
+            var validateId = ValidateId(Id);
+            var validateEmail = ValidateEmail(Email);
+
+            if (string.IsNullOrEmpty(Email) && Id == 0)
+                return new ValidationResult(false, "Id", "No inquiry criteria");
+
 
             return new ValidationResult();
         }

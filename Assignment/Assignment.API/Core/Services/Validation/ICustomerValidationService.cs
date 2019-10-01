@@ -10,6 +10,7 @@ namespace Assignment.API.Core.Services.Validation {
 
         ValidationResult ValidateId(long Id);
         ValidationResult ValidateEmail(string Email);
-        ValidationResult ValidateEmailAndId(string Email, long id);
+        ValidationResult ValidateEmailAndId(string Email, long Id);
+        ValidationResult ValidateIsEmptyEmailAndId(string Email, long Id);
     }
 }
