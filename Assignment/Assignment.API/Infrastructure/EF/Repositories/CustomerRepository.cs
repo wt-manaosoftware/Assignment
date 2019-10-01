@@ -1,4 +1,5 @@
 ﻿using Assignment.API.Core.DomainModels;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Threading.Tasks;
 
@@ -6,16 +7,22 @@ namespace Assignment.API.Infrastructure.EF.Repositories {
 
     public class CustomerRepository : ICustomerRepository {
 
-        public Task<Customer> GetCustomerWithTransactionByEmail(string email) {
-            throw new NotImplementedException();
+        private DBContext context { get; set; }
+
+        public CustomerRepository(DBContext context) {
+            this.context = context;
         }
 
-        public Task<Customer> GetCustomerWithTransactionByEmailAndId(string email, int id) {
-            throw new NotImplementedException();
+        public async Task<Customer> GetCustomerWithTransactionByEmail(string email) {
+            return await context.Customers.Include(x => x.Transactions).SingleOrDefaultAsync(x => x.ContactEmail == email);
         }
 
-        public Task<Customer> GetCustomerWithTransactionById(int id) {
-            throw new NotImplementedException();
+        public async Task<Customer> GetCustomerWithTransactionByEmailAndId(string email, long id) {
+            return await context.Customers.Include(x => x.Transactions).SingleOrDefaultAsync(x => x.ContactEmail == email && x.Id == id);
+        }
+
+        public async Task<Customer> GetCustomerWithTransactionById(long id) {
+            return await context.Customers.Include(x => x.Transactions).SingleOrDefaultAsync(x => x.Id == id);
         }
     }
 }
