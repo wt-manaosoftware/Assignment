@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Assignment.API.Core.Models.DTO;
 using Assignment.API.Core.Models.Results;
+using Assignment.API.Core.Services.Validation;
 using Assignment.API.Infrastructure.EF.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -16,14 +17,24 @@ namespace Assignment.API.Controllers
     {
 
         private ICustomerService customerService { get; }
-        public CustomerController(ICustomerService customerService) {
+        private ICustomerValidationService customerValidationService { get; }
+
+        public CustomerController(ICustomerService customerService, ICustomerValidationService customerValidationService) {
             this.customerService = customerService;
+            this.customerValidationService = customerValidationService;
         }
 
         [HttpGet("GetCustomerById")]
-        public async Task<ActionResult<Result<CustomerDTO>>> GetCustomerById([FromQuery] long customerId) {
+        public async Task<ActionResult<Result<CustomerDTO>>> GetCustomerById([FromQuery] long Id) {
 
-            var customer = await customerService.GetCustomerWith5TransactionsById(customerId);
+            var validateResult = customerValidationService.ValidateId(Id);
+
+            if (!validateResult.Success) {
+                var errorResult = Result<CustomerDTO>.ResultFail(validateResult);
+                return BadRequest(errorResult);
+            }
+
+            var customer = await customerService.GetCustomerWith5TransactionsById(Id);
 
             if (customer != null) {
                 var DTO = customer.ToDTO();
@@ -36,9 +47,16 @@ namespace Assignment.API.Controllers
         }
 
         [HttpGet("GetCustomerByEmail")]
-        public async Task<ActionResult<Result<CustomerDTO>>> GetCustomerByEmail([FromQuery] string email) {
+        public async Task<ActionResult<Result<CustomerDTO>>> GetCustomerByEmail([FromQuery] string Email) {
 
-            var customer = await customerService.GetCustomerWith5TransactionsByEmail(email);
+            var validateResult = customerValidationService.ValidateEmail(Email);
+
+            if (!validateResult.Success) {
+                var errorResult = Result<CustomerDTO>.ResultFail(validateResult);
+                return BadRequest(errorResult);
+            }
+
+            var customer = await customerService.GetCustomerWith5TransactionsByEmail(Email);
 
             if (customer != null) {
                 var DTO = customer.ToDTO();
@@ -51,9 +69,16 @@ namespace Assignment.API.Controllers
         }
 
         [HttpGet("GetCustomerByEmailAndId")]
-        public async Task<ActionResult<Result<CustomerDTO>>> GetCustomerByEmailAndId([FromQuery] string email, long id) {
+        public async Task<ActionResult<Result<CustomerDTO>>> GetCustomerByEmailAndId([FromQuery] string Email, long Id) {
 
-            var customer = await customerService.GetCustomerWith5TransactionsByEmailAndId(email, id);
+            var validateResult = customerValidationService.ValidateEmailAndId(Email, Id);
+
+            if (!validateResult.Success) {
+                var errorResult = Result<CustomerDTO>.ResultFail(validateResult);
+                return BadRequest(errorResult);
+            }
+
+            var customer = await customerService.GetCustomerWith5TransactionsByEmailAndId(Email, Id);
 
             if (customer != null) {
                 var DTO = customer.ToDTO();

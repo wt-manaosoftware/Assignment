@@ -1,4 +1,5 @@
-﻿using Assignment.API.Infrastructure.EF.Repositories;
+﻿using Assignment.API.Core.Services.Validation;
+using Assignment.API.Infrastructure.EF.Repositories;
 using Assignment.API.Infrastructure.EF.Services;
 using StructureMap;
 
@@ -9,6 +10,7 @@ namespace Assignment.API.IoC {
 
             For<ICustomerRepository>().Use<CustomerRepository>();
             For<ICustomerService>().Use<CustomerService>();
+            For<ICustomerValidationService>().Use<CustomerValidationService>();
 
         }
     }
