@@ -1,0 +1,16 @@
+﻿using Assignment.API.Core.Helpers.Enum;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace Assignment.API.Core.DomainModels {
+
+    public class Transaction : EntityBase {
+
+        public DateTimeOffset TransactionDate { get; set; }
+        public decimal Amount { get; set; }
+        public string CurrencyCode { get; set; }
+        public TransactionStatus Status { get; set; }
+    }
+}
