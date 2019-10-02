@@ -22,7 +22,7 @@ namespace Assignment.API.Core.DomainModels {
                 TransactionDate = this.TransactionDate,
                 Amount = this.Amount,
                 CurrencyCode = this.CurrencyCode,
-                Status = this.Status,
+                Status = this.Status.ToString(),
             };
 
             return result;

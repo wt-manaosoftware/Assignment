@@ -12,6 +12,6 @@ namespace Assignment.API.Core.Models.DTO {
         public DateTimeOffset TransactionDate { get; set; }
         public decimal Amount { get; set; }
         public string CurrencyCode { get; set; }
-        public TransactionStatus Status { get; set; }
+        public string Status { get; set; }
     }
 }
