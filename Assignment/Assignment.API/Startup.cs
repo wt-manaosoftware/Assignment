@@ -42,7 +42,7 @@ namespace Assignment.API {
                 app.UseDeveloperExceptionPage();
 
                 var context = container.GetInstance<DBContext>();
-                if (context.Database.CanConnect()) {
+                if (!context.Database.CanConnect()) {
                     context.Database.Migrate();
                     context.EnsureSeeded();
                 }
